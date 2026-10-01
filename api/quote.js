@@ -6,6 +6,11 @@ const byId = Object.assign(Object.create(null),Object.fromEntries(products.map(p
 const rateBuckets = new Map();
 const validDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(d)) && new Date(d).toISOString().slice(0,10)===d;
 const text = (v,max) => typeof v==='string'?v.trim().slice(0,max):'';
+const marketDate = area => {
+  const parts = new Intl.DateTimeFormat('en-US',{timeZone:area==='dfw'?'America/Chicago':'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map(p=>[p.type,p.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+};
 module.exports = async (req,res) => {
   res.setHeader('Cache-Control','no-store');
   // Read-only readiness check; never exposes credentials or customer data.
@@ -21,7 +26,17 @@ module.exports = async (req,res) => {
   if(data.website)return res.status(400).json({ok:false,message:'Unable to submit this request.'});
   const area=data.area;
   const name=text(data.name,100),email=text(data.email,180),date=text(data.date,10),endDate=text(data.endDate,10),location=text(data.location,180),occasion=text(data.occasion,100),service=text(data.service,100);
-  if(!['dc','dfw'].includes(area)||!name||/[\r\n]/.test(name)||!/^\S+@\S+\.\S+$/.test(email)||/[\r\n]/.test(email)||!validDate(date)||new Date(date).getTime()+86400000<Date.now()||!location||!occasion||!service||data.consent!==true)return res.status(400).json({ok:false,message:'Please provide your name, valid email, service area, event date, event type, venue location, preferred service and consent.'});
+  const invalid = (field,message) => res.status(400).json({ok:false,code:'VALIDATION_ERROR',field,message});
+  if(!['dc','dfw'].includes(area))return invalid('area','Please select Washington, DC / Northern Virginia or Dallas–Fort Worth.');
+  if(!name||/[\r\n]/.test(name))return invalid('name','Please enter your full name.');
+  if(!/^\S+@\S+\.\S+$/.test(email)||/[\r\n]/.test(email))return invalid('email','Please enter a valid email address, such as name@example.com.');
+  if(!validDate(date))return invalid('date','Please enter a valid event date, including the four-digit year.');
+  // Calendar dates must be compared in the event market, not at UTC midnight.
+  if(date<marketDate(area))return invalid('date','Your event date is in the past. Please choose today or a future date in your selected service area.');
+  if(!location)return invalid('location','Please enter the venue city and ZIP code.');
+  if(!occasion)return invalid('occasion','Please select a celebration type.');
+  if(!service)return invalid('service','Please select your preferred delivery or pickup service.');
+  if(data.consent!==true)return invalid('consent','Please check the consent box so GNS can respond to your request.');
   if(endDate&&(!validDate(endDate)||endDate<date))return res.status(400).json({ok:false,message:'Return date must be on or after the event date.'});
   if(!/^\d+$/.test(String(data.guests||''))||Number(data.guests)<1||Number(data.guests)>100000)return res.status(400).json({ok:false,message:'Please enter a valid guest count.'});
   if(!Array.isArray(data.items)||data.items.length>products.length)return res.status(400).json({ok:false,message:'Please review your rental list.'});

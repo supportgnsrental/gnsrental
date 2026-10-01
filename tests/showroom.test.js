@@ -29,6 +29,27 @@ test('dedicated categories and celebrations include honest availability language
  for(const c of content.categories){const doc=fs.readFileSync(path.join(root,'rental-categories',c.slug+'.html'),'utf8');assert.ok(doc.includes(c.name.replaceAll('&','&amp;')));if(!c.ids.length)assert.match(doc,/does not confirm inventory/)}
  for(const c of content.celebrations)assert.ok(fs.existsSync(path.join(root,'collections',c.slug+'.html')));
 });
+test('quote dates use the event market calendar after UTC midnight',async()=>{
+ const handler=require('../api/quote');
+ const RealDate=global.Date,oldKey=process.env.RESEND_API_KEY;
+ let now='2026-10-01T00:30:00Z';
+ const body={area:'dc',name:'Test Customer',email:'test@example.com',date:'2026-09-30',location:'Woodbridge, VA 22191',occasion:'Wedding',service:'Delivery & pickup',consent:true,guests:'100',items:[]};
+ const call=async overrides=>{let status,payload;await handler({method:'POST',headers:{host:'localhost','content-type':'application/json'},body:{...body,...overrides}},{setHeader(){},status(n){status=n;return this},json(v){payload=v}});return{status,payload}};
+ try{
+  delete process.env.RESEND_API_KEY;
+  global.Date=class extends RealDate{constructor(...args){super(...(args.length?args:[now]))}static now(){return RealDate.parse(now)}};
+  // Valid same-day requests reach email configuration validation; no email is sent.
+  assert.equal((await call({area:'dc'})).status,503);
+  assert.equal((await call({area:'dfw'})).status,503);
+  const past=await call({date:'2026-09-29'});assert.equal(past.status,400);assert.equal(past.payload.field,'date');assert.match(past.payload.message,/past/);
+  now='2026-10-01T04:30:00Z'; // Oct 1 in DMV, still Sep 30 in DFW.
+  assert.equal((await call({area:'dc'})).status,400);
+  assert.equal((await call({area:'dfw'})).status,503);
+  for(const [field,value] of [['name',''],['email','invalid'],['date','2026-02-30'],['area','other'],['location',''],['occasion',''],['service',''],['consent',false]]){
+   const result=await call({date:'2026-10-02',[field]:value});assert.equal(result.status,400);assert.equal(result.payload.field,field);
+  }
+ }finally{global.Date=RealDate;if(oldKey===undefined)delete process.env.RESEND_API_KEY;else process.env.RESEND_API_KEY=oldKey}
+});
 test('quote API requires a guest count and recomputes trusted prices',async()=>{
  const handler=require('../api/quote');const call=async body=>{let status,payload;const res={setHeader(){},status(n){status=n;return this},json(v){payload=v;return v}};await handler({method:'POST',headers:{host:'localhost','content-type':'application/json'},body},res);return{status,payload}};
  const body={area:'dc',name:'Test Customer',email:'test@example.com',date:'2099-06-20',location:'Woodbridge, VA 22191',occasion:'Wedding',service:'Delivery & pickup',consent:true,guests:'100',items:[{id:'gold-chiavari-chair',quantity:2,price:0}]};
