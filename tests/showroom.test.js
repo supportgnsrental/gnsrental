@@ -19,7 +19,7 @@ test('the complete founder story is published',()=>{
  assert.ok(about.includes('Founders, GNS Event Rentals'));
 });
 test('every generated page has unique IDs, local destinations and images',()=>{
- assert.equal(html.length,56);
+ assert.equal(html.length,57);
  for(const file of html){const doc=fs.readFileSync(file,'utf8');const ids=[...doc.matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length,path.relative(root,file)+' duplicate IDs');
   for(const m of doc.matchAll(/\s(?:href|src)="(\/[^"?]*)[^"\s]*"/g)){let u=m[1].split('#')[0];if(u==='/')u='/index.html';if(!path.extname(u))u+='.html';assert.ok(fs.existsSync(path.join(root,u)),`${file}: missing ${u}`)}
   assert.match(doc,/<h1[ >]/);assert.match(doc,/<meta name="description"/);
