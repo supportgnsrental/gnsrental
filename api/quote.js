@@ -53,6 +53,14 @@ module.exports = async (req,res) => {
   try{
     const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.QUOTE_FROM_EMAIL,to:[config.email],reply_to:email,subject:`${reference} | ${area==='dc'?'DC / NoVA':'DFW'} rental request | ${date}`,text:lines.join('\n')}),signal:AbortSignal.timeout(10000)});
     const responseData=await response.json();if(!response.ok||!responseData.id)return res.status(502).json({ok:false,message:'Email delivery is temporarily unavailable. Please try again or download your request.'});
-    return res.status(200).json({ok:true,reference});
+    // The business request is accepted. A failed customer copy must not tell
+    // the customer to resubmit and create a duplicate business notification.
+    let confirmationSent=false;
+    try{
+      const confirmation=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.QUOTE_FROM_EMAIL,to:[email],reply_to:config.email,subject:`We received your GNS rental quote request | ${reference}`,text:[`Hi ${name},`,'','Thank you for contacting GNS Event Rentals. We have received your quote request. Our team will review availability, your event details and service needs, then follow up with your personalized quote.','',...lines.slice(0,-2),'','This is a receipt for your request, not a confirmed reservation or final quote. Rentals are secured only after GNS confirms availability and you complete the agreement and required payment.','',`Questions or changes? Reply to this email and include ${reference}.`,'','From Our Family Celebrations to Yours.','GNS Event Rentals',config.email,'https://www.gnsrental.com'].join('\n')}),signal:AbortSignal.timeout(6000)});
+      const confirmationData=await confirmation.json();confirmationSent=Boolean(confirmation.ok&&confirmationData.id);
+      if(!confirmationSent)console.error('Quote confirmation not accepted',{reference,status:confirmation.status});
+    }catch(error){console.error('Quote confirmation unavailable',{reference,timeout:error.name==='TimeoutError'});}
+    return res.status(200).json({ok:true,reference,confirmationSent});
   }catch{return res.status(502).json({ok:false,message:'Email delivery is temporarily unavailable. Please try again or download your request.'})}
 };
