@@ -8,7 +8,7 @@ function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(f=>f
 const html=files(root).filter(f=>f.endsWith('.html'));
 test('homepage follows the approved order and publishes no pretend reviews',()=>{
  const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
- assert.deepEqual([...home.matchAll(/data-home-section="([^"]+)"/g)].map(m=>m[1]),['hero','welcome','categories','featured','celebrations','look','new-arrivals','how-it-works','service-areas','gallery','difference','social','final-cta']);
+ assert.deepEqual([...home.matchAll(/data-home-section="([^"]+)"/g)].map(m=>m[1]),['hero','welcome','categories','featured','celebrations','look','new-arrivals','how-it-works','agreements','service-areas','gallery','difference','social','final-cta']);
  assert.match(home,/Beautiful Celebrations/);assert.match(home,/Begin Here/);
  assert.doesNotMatch(home,/Client Name|★★★★★|AggregateRating|Review"/);
  assert.equal([...home.matchAll(/data-home-section="featured"[\s\S]*?(?=<section)/g)][0][0].match(/data-product-card/g).length,6);
