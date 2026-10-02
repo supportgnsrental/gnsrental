@@ -12,7 +12,7 @@ const GNS_CONFIG = {
   googleAnalyticsId: '', // G-XXXXXXXXXX; loads only with visitor consent.
   searchConsoleVerification: '',
   rentalPeriod: '24-hour rental',
-  primaryArea: 'Washington, DC / Northern Virginia',
+  primaryArea: 'Washington, DC, Maryland and Northern Virginia',
   secondaryArea: 'Dallas–Fort Worth, Texas'
 };
 if (typeof module !== 'undefined') module.exports = GNS_CONFIG;

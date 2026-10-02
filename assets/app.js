@@ -34,7 +34,7 @@
       $('#quote-total').textContent=estimateLabel();
     }
     $$('[data-detail-price]').forEach(n=>n.textContent=money(byId[n.dataset.detailPrice].price));
-    $$('[data-status]').forEach(n=>{const p=byId[n.dataset.status];n.textContent=(market==='dc'?'DC / NoVA':'DFW')+' · '+status(p)});
+    $$('[data-status]').forEach(n=>{const p=byId[n.dataset.status];n.textContent=(market==='dc'?'DMV':'DFW')+' · '+status(p)});
     $$('[data-add]').forEach(b=>b.disabled=byId[b.dataset.add].markets[market]==='unavailable');
   }
   function setMarket(value){market=value;$$('[data-market-select]').forEach(s=>s.value=market);save();renderCart();filterCatalog();}
@@ -77,10 +77,10 @@
     const order=$('#catalog-sort')?.value;if(order==='price-low')visible.sort((a,b)=>(a.price===null?Infinity:a.price)-(b.price===null?Infinity:b.price));if(order==='price-high')visible.sort((a,b)=>(b.price===null?-Infinity:b.price)-(a.price===null?-Infinity:a.price));if(order==='name')visible.sort((a,b)=>a.name.localeCompare(b.name));
     const cards=new Map($$('#catalog-grid [data-product-card]').map(el=>[el.dataset.id,el]));
     cards.forEach(card=>card.hidden=true);const grid=holder.querySelector('.product-grid');visible.forEach(p=>{const card=cards.get(p.id);card.hidden=false;grid.append(card)});
-    $('#catalog-count').textContent=`${visible.length} ${visible.length===1?'piece':'pieces'} for ${market==='dc'?'DC / Northern Virginia':'Dallas–Fort Worth'}`;
+    $('#catalog-count').textContent=`${visible.length} ${visible.length===1?'piece':'pieces'} for ${market==='dc'?'DMV':'Dallas–Fort Worth'}`;
     $('#catalog-empty').hidden=visible.length>0;
     $$('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===activeCategory)));
-    $('#availability-note').textContent=`${market==='dc'?'DC / Northern Virginia':'Dallas–Fort Worth'}: inventory, minimums, delivery and setup are reviewed for your location and date. “Confirm with quote” means availability has not yet been confirmed.`;
+    $('#availability-note').textContent=`${market==='dc'?'DMV':'Dallas–Fort Worth'}: inventory, minimums, delivery and setup are reviewed for your location and date. “Confirm with quote” means availability has not yet been confirmed.`;
   }
   $('#catalog-search')?.addEventListener('input',filterCatalog);$('#catalog-sort')?.addEventListener('change',filterCatalog);
   $('#reset-filters')?.addEventListener('click',()=>{activeCategory='All';$('#catalog-search').value='';$('#catalog-sort').value='featured';filterCatalog()});
