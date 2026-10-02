@@ -122,3 +122,8 @@
 img[src*="gns-red-cooler-open-upright.webp"]{object-fit:contain!important;transform:rotate(-90deg) scale(.74)!important;mix-blend-mode:normal}
 
 .detail-image img[src*="gns-red-cooler-open-upright.webp"]{transform:rotate(-90deg)!important}
+
+/* Restore the full garden reception banner with readable text over the lawn. */
+.showroom-hero>img{left:0;right:0;width:100%;object-position:center}
+.showroom-hero-overlay{background:linear-gradient(90deg,rgba(12,30,24,.84) 0%,rgba(12,30,24,.66) 42%,rgba(12,30,24,.16) 76%)}
+@media(max-width:680px){.showroom-hero>img{opacity:1;object-position:65% center}.showroom-hero-overlay{background:linear-gradient(90deg,rgba(12,30,24,.85),rgba(12,30,24,.5))}}
