@@ -2,7 +2,7 @@
 const categories = [
  ['chairs','Chairs',['gold-chiavari-chair','white-folding-chair'],'gold-chiavari-chair.webp','A beautiful seat for every guest.'],
  ['tables','Tables',['round-table','banquet-table','cocktail-table'],'round-table.webp','Bring everyone together, from intimate dinners to grand receptions.'],
- ['linens-napkins','Linens & Napkins',['white-linen', 'black-table-skirt'],'gns-black-table-skirt.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
+ ['linens-napkins','Linens & Napkins',['white-linen', 'black-table-skirt', 'navy-pintuck-120-round-tablecloth'],'gns-black-table-skirt.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
  ['charger-plates','Charger Plates',['gold-rim-charger'],'gns-charger-tablescape.webp','Frame each place setting with a finishing touch.'],
  ['dinnerware','Dinnerware',['dinnerware-setting'],'gns-dinnerware-setting.webp','Create a welcoming place at the table for every guest.'],
  ['flatware','Flatware',[],'gns-charger-tablescape.webp','The little details that complete a beautifully coordinated table.'],

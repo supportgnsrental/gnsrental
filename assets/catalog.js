@@ -372,6 +372,24 @@ const GNS_CATALOG = [
       "dc": "request",
       "dfw": "request"
     }
+  },
+  {
+    "id": "navy-pintuck-120-round-tablecloth",
+    "name": "Pintuck 120\" Round Tablecloth - Navy Blue",
+    "category": "Linens & Tabletop",
+    "price": 20,
+    "image": null,
+    "tag": "Rich color. Beautiful texture.",
+    "description": "A navy blue pintuck tablecloth with a 120-inch round shape for an elegant, textured tablescape.",
+    "details": [
+      "120-inch round tablecloth",
+      "Navy blue pintuck fabric",
+      "Table fit, quantities and availability confirmed with your quote"
+    ],
+    "markets": {
+      "dc": "request",
+      "dfw": "request"
+    }
   }
 ];
 if (typeof module !== 'undefined') module.exports = GNS_CATALOG;
