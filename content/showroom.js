@@ -1,30 +1,30 @@
 // Editorial content shared by the showroom, navigation and dedicated landing pages.
 const categories = [
- ['chairs','Chairs',['gold-chiavari-chair','white-folding-chair'],'gold-chiavari-chair.webp','A beautiful seat for every guest.'],
- ['tables','Tables',['round-table','banquet-table','cocktail-table'],'round-table.webp','Bring everyone together, from intimate dinners to grand receptions.'],
- ['linens-napkins','Linens & Napkins',['white-linen'],'white-linen.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
- ['charger-plates','Charger Plates',[],'water-goblet.webp','Frame each place setting with a finishing touch.'],
- ['dinnerware','Dinnerware',[],'white-linen.webp','Create a welcoming place at the table for every guest.'],
- ['flatware','Flatware',[],'water-goblet.webp','The little details that complete a beautifully coordinated table.'],
- ['glassware','Glassware',['water-goblet'],'water-goblet.webp','Raise a glass to the moments worth remembering.'],
- ['catering-chafers','Chafing Dishes & Catering',[],'banquet-table.webp','Thoughtful serving pieces for a celebration shared over food.'],
- ['centerpieces-vases','Centerpieces & Vases',[],'gold-arch.webp','Add shape, height and personality to your celebration.'],
- ['backdrops-arches','Backdrops & Arches',['gold-arch'],'gold-arch.webp','Set the scene for your ceremony and your favorite photographs.'],
- ['pedestals-displays','Pedestals & Display Stands',[],'cocktail-table.webp','Give your most beautiful details a place to shine.'],
- ['cake-dessert-displays','Cake & Dessert Displays',[],'cocktail-table.webp','Make the sweetest part of the celebration feel special.'],
- ['lounge-specialty','Lounge & Specialty Furniture',[],'gold-chiavari-chair.webp','Invite your guests to gather, settle in and celebrate.'],
- ['decor-accessories','Décor & Accessories',[],'gold-arch.webp','Bring your vision together with thoughtful finishing touches.'],
- ['tabletop','Tabletop',['white-linen','water-goblet'],'water-goblet.webp','Layer linens, glassware and details into a setting that feels like you.'],
- ['specialty-rentals','Specialty Rentals',['white-canopy','patio-heater','cooler','waste-bin','extension-cord'],'white-canopy.webp','Comfort and practical essentials for a beautifully considered occasion.']
+ ['chairs','Chairs',['gold-chiavari-chair','white-folding-chair'],null,'A beautiful seat for every guest.'],
+ ['tables','Tables',['round-table','banquet-table','cocktail-table'],null,'Bring everyone together, from intimate dinners to grand receptions.'],
+ ['linens-napkins','Linens & Napkins',['white-linen', 'black-table-skirt'],'gns-black-table-skirt.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
+ ['charger-plates','Charger Plates',['gold-rim-charger'],'gns-charger-tablescape.webp','Frame each place setting with a finishing touch.'],
+ ['dinnerware','Dinnerware',['dinnerware-setting'],'gns-dinnerware-setting.webp','Create a welcoming place at the table for every guest.'],
+ ['flatware','Flatware',[],'gns-charger-tablescape.webp','The little details that complete a beautifully coordinated table.'],
+ ['glassware','Glassware',['water-goblet'],null,'Raise a glass to the moments worth remembering.'],
+ ['catering-chafers','Chafing Dishes & Catering',['gold-round-chafer', 'gold-9l-chafer', 'rose-gold-chafer', 'floral-serving-bowl'],'gns-gold-round-chafer.webp','Thoughtful serving pieces for a celebration shared over food.'],
+ ['centerpieces-vases','Centerpieces & Vases',[],null,'Add shape, height and personality to your celebration.'],
+ ['backdrops-arches','Backdrops & Arches',['gold-arch'],null,'Set the scene for your ceremony and your favorite photographs.'],
+ ['pedestals-displays','Pedestals & Display Stands',[],null,'Give your most beautiful details a place to shine.'],
+ ['cake-dessert-displays','Cake & Dessert Displays',['floral-serving-bowl'],'gns-floral-serving-bowl.webp','Make the sweetest part of the celebration feel special.'],
+ ['lounge-specialty','Lounge & Specialty Furniture',[],null,'Invite your guests to gather, settle in and celebrate.'],
+ ['decor-accessories','Décor & Accessories',[],null,'Bring your vision together with thoughtful finishing touches.'],
+ ['tabletop','Tabletop',['gold-rim-charger', 'dinnerware-setting', 'floral-serving-bowl', 'white-linen', 'water-goblet'],'gns-dinnerware-setting.webp','Layer linens, glassware and details into a setting that feels like you.'],
+ ['specialty-rentals','Specialty Rentals',['white-canopy','patio-heater','cooler','waste-bin','extension-cord'],'gns-red-catering-cooler.webp','Comfort and practical essentials for a beautifully considered occasion.']
 ].map(([slug,name,ids,image,copy])=>({slug,name,ids,image,copy}));
 const celebrations = [
- ['weddings','Weddings','A setting for your forever.','From your ceremony to your final toast, bring your wedding vision together with thoughtfully selected seating, tables, linens and beautiful details.','celebration-hero.webp',['gold-chiavari-chair','round-table','white-linen','water-goblet','gold-arch'],'Wedding'],
- ['nikkah-walimat','Nikkah & Walimat','Two families. A beautiful beginning.','Create a welcoming setting for your Nikkah or Walimat-ul-Nikkah. Share your ceremony, dining and venue requirements so we can help shape a rental list around your celebration.','gold-arch.webp',['gold-arch','gold-chiavari-chair','round-table','white-linen','water-goblet'],'Walimat-ul-Nikkah'],
- ['birthdays-milestones','Birthdays & Milestones','Another chapter worth celebrating.','Gather the people you love for birthdays, anniversaries and milestones with pieces that make the occasion feel personal.','cocktail-table.webp',['cocktail-table','round-table','gold-chiavari-chair','white-linen'],'Birthday'],
- ['baby-bridal-showers','Baby & Bridal Showers','Beautiful beginnings, shared together.','From an intimate shower to a larger gathering, create a thoughtful setting for welcoming a new chapter with family and friends.','white-linen.webp',['round-table','white-folding-chair','white-linen','water-goblet','gold-arch'],'Baby / bridal shower'],
- ['graduations','Graduations','A proud moment. A joyful gathering.','Celebrate hard work and new beginnings with welcoming seating, dining tables and outdoor event essentials.','white-canopy.webp',['white-folding-chair','banquet-table','white-canopy','cooler'],'Graduation'],
- ['corporate-events','Corporate Events','Make a thoughtful impression.','Plan a professional, welcoming gathering with practical seating, tables, linens and essentials tailored to your venue and guest count.','banquet-table.webp',['banquet-table','cocktail-table','white-linen','water-goblet'],'Corporate event'],
- ['cultural-celebrations','Cultural Celebrations','Your traditions. Your celebration.','Bring people together in a setting that honors your traditions. Tell us about your celebration, colors and service needs so we can help coordinate the details.','celebration-hero.webp',['gold-chiavari-chair','round-table','white-linen','water-goblet','gold-arch'],'Cultural celebration']
+ ['weddings','Weddings','A setting for your forever.','From your ceremony to your final toast, bring your wedding vision together with thoughtfully selected seating, tables, linens and beautiful details.','gns-dinnerware-setting.webp',['gold-chiavari-chair','round-table','white-linen','water-goblet','gold-arch'],'Wedding'],
+ ['nikkah-walimat','Nikkah & Walimat','Two families. A beautiful beginning.','Create a welcoming setting for your Nikkah or Walimat-ul-Nikkah. Share your ceremony, dining and venue requirements so we can help shape a rental list around your celebration.','gns-dinnerware-setting.webp',['gold-arch','gold-chiavari-chair','round-table','white-linen','water-goblet'],'Walimat-ul-Nikkah'],
+ ['birthdays-milestones','Birthdays & Milestones','Another chapter worth celebrating.','Gather the people you love for birthdays, anniversaries and milestones with pieces that make the occasion feel personal.','gns-dinnerware-setting.webp',['cocktail-table','round-table','gold-chiavari-chair','white-linen'],'Birthday'],
+ ['baby-bridal-showers','Baby & Bridal Showers','Beautiful beginnings, shared together.','From an intimate shower to a larger gathering, create a thoughtful setting for welcoming a new chapter with family and friends.','gns-dinnerware-setting.webp',['round-table','white-folding-chair','white-linen','water-goblet','gold-arch'],'Baby / bridal shower'],
+ ['graduations','Graduations','A proud moment. A joyful gathering.','Celebrate hard work and new beginnings with welcoming seating, dining tables and outdoor event essentials.','gns-dinnerware-setting.webp',['white-folding-chair','banquet-table','white-canopy','cooler'],'Graduation'],
+ ['corporate-events','Corporate Events','Make a thoughtful impression.','Plan a professional, welcoming gathering with practical seating, tables, linens and essentials tailored to your venue and guest count.','gns-dinnerware-setting.webp',['banquet-table','cocktail-table','white-linen','water-goblet'],'Corporate event'],
+ ['cultural-celebrations','Cultural Celebrations','Your traditions. Your celebration.','Bring people together in a setting that honors your traditions. Tell us about your celebration, colors and service needs so we can help coordinate the details.','gns-dinnerware-setting.webp',['gold-chiavari-chair','round-table','white-linen','water-goblet','gold-arch'],'Cultural celebration']
 ].map(([slug,name,tag,copy,image,ids,occasion])=>({slug,name,tag,copy,image,ids,occasion}));
 const steps = [
  ['Browse','Explore the GNS rental collection.'],

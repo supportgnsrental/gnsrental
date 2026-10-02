@@ -19,7 +19,7 @@ test('the complete founder story is published',()=>{
  assert.ok(about.includes('Founders, GNS Event Rentals'));
 });
 test('every generated page has unique IDs, local destinations and images',()=>{
- assert.equal(html.length,57);
+ assert.equal(html.length,44+require('../assets/catalog').length);
  for(const file of html){const doc=fs.readFileSync(file,'utf8');const ids=[...doc.matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length,path.relative(root,file)+' duplicate IDs');
   for(const m of doc.matchAll(/\s(?:href|src)="(\/[^"?]*)[^"\s]*"/g)){let u=m[1].split('#')[0];if(u==='/')u='/index.html';if(!path.extname(u))u+='.html';assert.ok(fs.existsSync(path.join(root,u)),`${file}: missing ${u}`)}
   assert.match(doc,/<h1[ >]/);assert.match(doc,/<meta name="description"/);
@@ -68,3 +68,20 @@ test('quote API requires a guest count and recomputes trusted prices',async()=>{
  let health;await handler({method:'GET',headers:{}},{setHeader(){},status(n){assert.equal(n,200);return this},json(v){health=v}});assert.deepEqual(health,{ok:true,emailConfigured:false});
  }finally{keys.forEach((k,i)=>old[i]===undefined?delete process.env[k]:process.env[k]=old[i]);global.fetch=oldFetch}
 });
+
+ test('website photography comes only from the supplied Drive folder',()=>{
+  const allowed=new Set(require('../content/image-sources.json').images.map(i=>i.file));
+  allowed.add('gns-logo.png'); // Retain the approved business logo.
+  for(const file of html){const doc=fs.readFileSync(file,'utf8');for(const m of doc.matchAll(/\/assets\/images\/([^"?<> ]+)/g))assert.ok(allowed.has(m[1]),`${file}: unapproved photo ${m[1]}`)}
+  for(const p of require('../assets/catalog'))if(p.image)assert.ok(allowed.has(p.image));
+ });
+ test('quote-only items appear in both emails without a zero-dollar price',async()=>{
+  const handler=require('../api/quote');const oldFetch=global.fetch;const oldKey=process.env.RESEND_API_KEY,oldFrom=process.env.QUOTE_FROM_EMAIL;const sent=[];
+  try{
+   process.env.RESEND_API_KEY='mock';process.env.QUOTE_FROM_EMAIL='test@example.com';
+   global.fetch=async(url,options)=>{sent.push(JSON.parse(options.body));return{ok:true,json:async()=>({id:'mock'})}};
+   let status;await handler({method:'POST',headers:{host:'localhost','content-type':'application/json','x-forwarded-for':'quote-only-test'},body:{area:'dfw',name:'Test Customer',email:'test@example.com',date:'2099-06-20',location:'Irving, TX 75039',occasion:'Birthday',service:'Pickup',consent:true,guests:'25',items:[{id:'gold-round-chafer',quantity:3,price:0},{id:'gold-chiavari-chair',quantity:2}]}},{setHeader(){},status(n){status=n;return this},json(){}});
+   assert.equal(status,200);assert.equal(sent.length,2);
+   for(const email of sent){assert.match(email.text,/3 × 6L Gold Round Chafer — pricing by quote/);assert.match(email.text,/subtotal: \$18\.00 \+ items priced by quote/);assert.doesNotMatch(email.text,/6L Gold Round Chafer @ \$0/)}
+  }finally{global.fetch=oldFetch;if(oldKey===undefined)delete process.env.RESEND_API_KEY;else process.env.RESEND_API_KEY=oldKey;if(oldFrom===undefined)delete process.env.QUOTE_FROM_EMAIL;else process.env.QUOTE_FROM_EMAIL=oldFrom}
+ });

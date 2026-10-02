@@ -7,6 +7,10 @@
   const $$ = s => [...document.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:n%1?2:0,maximumFractionDigits:2}).format(n);
+  const priceLabel=p=>p.price===null?'Pricing by quote':money(p.price);
+  const itemPhoto=p=>p.image?`<img src="/assets/images/${p.image}" alt="${esc(p.name)}">`:'<div class="photo-pending"><span>GNS</span><small>Photo pending</small></div>';
+  const hasUnpriced=()=>Object.keys(cart).some(id=>byId[id].price===null);
+  const estimateLabel=()=>money(total())+(hasUnpriced()?' + pricing by quote':'');
   const storage = {get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{/* List still works for this visit. */}}};
   let cart={};let market='dc';let activeCategory='All';let lastFocus=null;let toastTimer;
   try { const saved=JSON.parse(storage.get('gns-rentals-v1')||'{}');if(saved.market==='dfw')market='dfw';for(const [id,q] of Object.entries(saved.items||{})){if(byId[id]&&Number.isInteger(q)&&q>0&&q<=999)cart[id]=q;} } catch{/* Use a fresh list. */}
@@ -16,18 +20,18 @@
   if(location.pathname.replace(/\/$/,'')==='/service-areas/dc-northern-virginia')market='dc';
   if(products.some(p=>p.category===params.get('category')))activeCategory=params.get('category');
   const save=()=>storage.set('gns-rentals-v1',JSON.stringify({market,items:cart}));
-  const total=()=>Object.entries(cart).reduce((n,[id,q])=>n+byId[id].price*q,0);
+  const total=()=>Object.entries(cart).reduce((n,[id,q])=>n+(byId[id].price??0)*q,0);
   const unavailable=()=>Object.keys(cart).filter(id=>byId[id].markets[market]==='unavailable');
   const status=p=>p.markets[market]==='available'?'Offered in this market · date availability by quote':p.markets[market]==='unavailable'?'Not offered in this market':'Confirm with quote';
   function toast(message){const node=$('#toast');node.textContent=message;node.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.classList.remove('visible'),3300);}
   function renderCart(){
     const count=Object.values(cart).reduce((n,q)=>n+q,0);$$('.cart-count').forEach(n=>n.textContent=count);
     const entries=Object.entries(cart);
-    $('#cart-items').innerHTML=entries.length?entries.map(([id,q])=>{const p=byId[id];return `<div class="cart-item"><img src="/assets/images/${p.image}" alt="${esc(p.name)}"><div><h3>${esc(p.name)}</h3><p>${money(p.price)} each / rental</p><p>${status(p)}</p><div class="quantity-controls"><button data-change="${id}" data-step="-1" aria-label="Reduce ${esc(p.name)} quantity">−</button><span aria-label="Quantity">${q}</span><button data-change="${id}" data-step="1" aria-label="Increase ${esc(p.name)} quantity" ${q>=999?'disabled':''}>+</button><button class="remove" data-remove="${id}" aria-label="Remove ${esc(p.name)}">Remove</button></div></div><span class="cart-item-price">${money(p.price*q)}</span></div>`}).join(''):`<div class="cart-empty"><h3>A little inspiration<br>goes a long way.</h3><p>Your rental list is waiting for its first beautiful piece.</p><a href="/catalog" class="button button-outline">Explore the collection</a></div>`;
-    $('#cart-total').textContent=money(total());
+    $('#cart-items').innerHTML=entries.length?entries.map(([id,q])=>{const p=byId[id];return `<div class="cart-item">${itemPhoto(p)}<div><h3>${esc(p.name)}</h3><p>${p.price===null?'Pricing by quote':money(p.price)+' each / rental'}</p><p>${status(p)}</p><div class="quantity-controls"><button data-change="${id}" data-step="-1" aria-label="Reduce ${esc(p.name)} quantity">−</button><span aria-label="Quantity">${q}</span><button data-change="${id}" data-step="1" aria-label="Increase ${esc(p.name)} quantity" ${q>=999?'disabled':''}>+</button><button class="remove" data-remove="${id}" aria-label="Remove ${esc(p.name)}">Remove</button></div></div><span class="cart-item-price">${p.price===null?'By quote':money(p.price*q)}</span></div>`}).join(''):`<div class="cart-empty"><h3>A little inspiration<br>goes a long way.</h3><p>Your rental list is waiting for its first beautiful piece.</p><a href="/catalog" class="button button-outline">Explore the collection</a></div>`;
+    $('#cart-total').textContent=estimateLabel();
     if($('#quote-items')) {
-      $('#quote-items').innerHTML=entries.length?entries.map(([id,q])=>{const p=byId[id];return `<div class="quote-row"><img src="/assets/images/${p.image}" alt="${esc(p.name)}"><div><h3>${esc(p.name)}</h3><p>${q} × ${money(p.price)} / rental</p><p>${status(p)}</p></div><strong>${money(p.price*q)}</strong></div>`}).join(''):'<p>No pieces selected yet? That’s okay. Tell us your vision below, or explore the collection to start a list.</p>';
-      $('#quote-total').textContent=money(total());
+      $('#quote-items').innerHTML=entries.length?entries.map(([id,q])=>{const p=byId[id];return `<div class="quote-row">${itemPhoto(p)}<div><h3>${esc(p.name)}</h3><p>${q} × ${priceLabel(p)}${p.price===null?'':' / rental'}</p><p>${status(p)}</p></div><strong>${p.price===null?'By quote':money(p.price*q)}</strong></div>`}).join(''):'<p>No pieces selected yet? That’s okay. Tell us your vision below, or explore the collection to start a list.</p>';
+      $('#quote-total').textContent=estimateLabel();
     }
     $$('[data-detail-price]').forEach(n=>n.textContent=money(byId[n.dataset.detailPrice].price));
     $$('[data-status]').forEach(n=>{const p=byId[n.dataset.status];n.textContent=(market==='dc'?'DC / NoVA':'DFW')+' · '+status(p)});
@@ -70,7 +74,7 @@
     const holder=$('#catalog-grid');if(!holder)return;
     const query=($('#catalog-search')?.value||'').trim().toLowerCase();
     let visible=products.filter(p=>p.markets[market]!=='unavailable'&&(activeCategory==='All'||p.category===activeCategory)&&`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(query));
-    const order=$('#catalog-sort')?.value;if(order==='price-low')visible.sort((a,b)=>a.price-b.price);if(order==='price-high')visible.sort((a,b)=>b.price-a.price);if(order==='name')visible.sort((a,b)=>a.name.localeCompare(b.name));
+    const order=$('#catalog-sort')?.value;if(order==='price-low')visible.sort((a,b)=>(a.price===null?Infinity:a.price)-(b.price===null?Infinity:b.price));if(order==='price-high')visible.sort((a,b)=>(b.price===null?-Infinity:b.price)-(a.price===null?-Infinity:a.price));if(order==='name')visible.sort((a,b)=>a.name.localeCompare(b.name));
     const cards=new Map($$('#catalog-grid [data-product-card]').map(el=>[el.dataset.id,el]));
     cards.forEach(card=>card.hidden=true);const grid=holder.querySelector('.product-grid');visible.forEach(p=>{const card=cards.get(p.id);card.hidden=false;grid.append(card)});
     $('#catalog-count').textContent=`${visible.length} ${visible.length===1?'piece':'pieces'} for ${market==='dc'?'DC / Northern Virginia':'Dallas–Fort Worth'}`;
@@ -115,7 +119,7 @@
     $('#download-request').addEventListener('click',()=>{const data=payload();const blob=new Blob([requestText(data)],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='GNS-Rental-Request-'+(data.date||'Draft')+'.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Request copy downloaded. This does not send it to GNS.');});
   }
   function payload(){const fd=new FormData(form);const data=Object.fromEntries(fd.entries());data.consent=fd.has('consent');data.area=market;data.items=Object.entries(cart).map(([id,quantity])=>({id,quantity}));return data;}
-  function requestText(data){return ['GNS EVENT RENTALS — RENTAL QUOTE REQUEST','This copy is not a booking confirmation.','',`Service area: ${data.area==='dc'?config.primaryArea:config.secondaryArea}`,`Event date: ${data.date||'To be confirmed'}`,`End / return date: ${data.endDate||'To be confirmed'}`,`Occasion: ${data.occasion||'To be confirmed'}`,`Guests: ${data.guests||'To be confirmed'}`,`Venue: ${data.venue||'To be confirmed'}`,`Location: ${data.location||'To be confirmed'}`,`Service: ${data.service||'To be confirmed'}`,'','RENTAL LIST',...data.items.map(i=>`${i.quantity} × ${byId[i.id].name} @ ${money(byId[i.id].price)} = ${money(byId[i.id].price*i.quantity)}`),`Estimated rental subtotal: ${money(total())}`,'Rates are sample starting estimates for a 24-hour rental. Delivery, setup, taxes and other applicable charges are quoted separately.','',`Name: ${data.name||''}`,`Email: ${data.email||''}`,`Phone: ${data.phone||''}`,`Company: ${data.company||''}`,'',`Notes: ${data.notes||''}`].join('\n');}
+  function requestText(data){return ['GNS EVENT RENTALS — RENTAL QUOTE REQUEST','This copy is not a booking confirmation.','',`Service area: ${data.area==='dc'?config.primaryArea:config.secondaryArea}`,`Event date: ${data.date||'To be confirmed'}`,`End / return date: ${data.endDate||'To be confirmed'}`,`Occasion: ${data.occasion||'To be confirmed'}`,`Guests: ${data.guests||'To be confirmed'}`,`Venue: ${data.venue||'To be confirmed'}`,`Location: ${data.location||'To be confirmed'}`,`Service: ${data.service||'To be confirmed'}`,'','RENTAL LIST',...data.items.map(i=>byId[i.id].price===null?`${i.quantity} × ${byId[i.id].name} — pricing by quote`:`${i.quantity} × ${byId[i.id].name} @ ${money(byId[i.id].price)} = ${money(byId[i.id].price*i.quantity)}`),`Estimated priced-item subtotal: ${estimateLabel()}`,'Items marked pricing by quote are excluded from the estimate.', 'Rates are sample starting estimates for a 24-hour rental. Delivery, setup, taxes and other applicable charges are quoted separately.','',`Name: ${data.name||''}`,`Email: ${data.email||''}`,`Phone: ${data.phone||''}`,`Company: ${data.company||''}`,'',`Notes: ${data.notes||''}`].join('\n');}
   let analyticsLoaded=false;
   function loadAnalytics(){if(analyticsLoaded||!/^G-[A-Z0-9]+$/.test(config.googleAnalyticsId))return;analyticsLoaded=true;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};gtag('js',new Date());gtag('config',config.googleAnalyticsId,{send_page_view:true});const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(config.googleAnalyticsId);document.head.append(script);}
   function track(event,params){if(analyticsLoaded&&storage.get('gns-analytics-consent')==='yes')window.gtag('event',event,params);}
