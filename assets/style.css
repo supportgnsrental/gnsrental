@@ -120,3 +120,5 @@
 
 /* Present the supplied cooler photograph upright without changing the original pixels. */
 img[src*="gns-red-cooler-open-upright.webp"]{object-fit:contain!important;transform:rotate(-90deg) scale(.74)!important;mix-blend-mode:normal}
+
+.detail-image img[src*="gns-red-cooler-open-upright.webp"]{transform:rotate(-90deg)!important}
