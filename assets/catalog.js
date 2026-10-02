@@ -378,7 +378,7 @@ const GNS_CATALOG = [
     "name": "Pintuck 120\" Round Tablecloth - Navy Blue",
     "category": "Linens & Tabletop",
     "price": 20,
-    "image": null,
+    "image": "gns-navy-pintuck-tablecloth.webp",
     "tag": "Rich color. Beautiful texture.",
     "description": "A navy blue pintuck tablecloth with a 120-inch round shape for an elegant, textured tablescape.",
     "details": [
