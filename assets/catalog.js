@@ -390,6 +390,25 @@ const GNS_CATALOG = [
       "dc": "request",
       "dfw": "request"
     }
+  },
+  {
+    "id": "eggplant-polyester-19-napkin",
+    "name": "Premium Polyester Napkin 19\"x19\" - Eggplant/Plum",
+    "category": "Linens & Tabletop",
+    "price": null,
+    "image": "gns-eggplant-polyester-napkin.webp",
+    "tag": "A rich finishing touch",
+    "description": "A premium polyester napkin in eggplant/plum, sized 19 by 19 inches, for a beautifully coordinated place setting.",
+    "details": [
+      "19\" × 19\" napkin",
+      "Premium polyester",
+      "Eggplant / plum color",
+      "Price per napkin, quantities and market availability confirmed with your quote"
+    ],
+    "markets": {
+      "dc": "request",
+      "dfw": "request"
+    }
   }
 ];
 if (typeof module !== 'undefined') module.exports = GNS_CATALOG;

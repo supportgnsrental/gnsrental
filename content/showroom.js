@@ -2,7 +2,7 @@
 const categories = [
  ['chairs','Chairs',['gold-chiavari-chair','white-folding-chair'],'gold-chiavari-chair.webp','A beautiful seat for every guest.'],
  ['tables','Tables',['round-table','banquet-table','cocktail-table'],'round-table.webp','Bring everyone together, from intimate dinners to grand receptions.'],
- ['linens-napkins','Linens & Napkins',['white-linen', 'black-table-skirt', 'navy-pintuck-120-round-tablecloth'],'gns-black-table-skirt.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
+ ['linens-napkins','Linens & Napkins',['white-linen', 'black-table-skirt', 'navy-pintuck-120-round-tablecloth', 'eggplant-polyester-19-napkin'],'gns-black-table-skirt.webp','Soft textures and thoughtful finishing touches for your tablescape.'],
  ['charger-plates','Charger Plates',['gold-rim-charger'],'gns-charger-tablescape.webp','Frame each place setting with a finishing touch.'],
  ['dinnerware','Dinnerware',['dinnerware-setting'],'gns-dinnerware-setting.webp','Create a welcoming place at the table for every guest.'],
  ['flatware','Flatware',[],'gns-charger-tablescape.webp','The little details that complete a beautifully coordinated table.'],
@@ -14,7 +14,7 @@ const categories = [
  ['cake-dessert-displays','Cake & Dessert Displays',['floral-serving-bowl'],'gns-floral-serving-bowl.webp','Make the sweetest part of the celebration feel special.'],
  ['lounge-specialty','Lounge & Specialty Furniture',[],'gold-chiavari-chair.webp','Invite your guests to gather, settle in and celebrate.'],
  ['decor-accessories','Décor & Accessories',[],'gold-arch.webp','Bring your vision together with thoughtful finishing touches.'],
- ['tabletop','Tabletop',['gold-rim-charger', 'dinnerware-setting', 'floral-serving-bowl', 'white-linen', 'water-goblet'],'gns-dinnerware-setting.webp','Layer linens, glassware and details into a setting that feels like you.'],
+ ['tabletop','Tabletop',['gold-rim-charger', 'dinnerware-setting', 'floral-serving-bowl', 'white-linen', 'water-goblet', 'eggplant-polyester-19-napkin'],'gns-dinnerware-setting.webp','Layer linens, glassware and details into a setting that feels like you.'],
  ['specialty-rentals','Specialty Rentals',['white-canopy','patio-heater','cooler','red-catering-cooler','waste-bin','extension-cord'],'gns-red-catering-cooler.webp','Comfort and practical essentials for a beautifully considered occasion.']
 ].map(([slug,name,ids,image,copy])=>({slug,name,ids,image,copy}));
 const celebrations = [
