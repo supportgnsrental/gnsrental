@@ -361,7 +361,7 @@ const GNS_CATALOG = [
     "name": "Red Catering Cooler",
     "category": "Outdoor & Essentials",
     "price": null,
-    "image": "gns-red-catering-cooler.webp",
+    "image": "gns-red-cooler-open-upright.webp",
     "tag": "Keep the refreshments ready",
     "description": "A red insulated catering cooler for transporting food and refreshments. Insert configuration and capacity are confirmed with your quote.",
     "details": [

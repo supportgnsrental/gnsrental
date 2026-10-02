@@ -15,7 +15,7 @@ const categories = [
  ['lounge-specialty','Lounge & Specialty Furniture',[],'gold-chiavari-chair.webp','Invite your guests to gather, settle in and celebrate.'],
  ['decor-accessories','Décor & Accessories',[],'gold-arch.webp','Bring your vision together with thoughtful finishing touches.'],
  ['tabletop','Tabletop',['gold-rim-charger', 'dinnerware-setting', 'floral-serving-bowl', 'white-linen', 'water-goblet', 'eggplant-polyester-19-napkin'],'gns-dinnerware-setting.webp','Layer linens, glassware and details into a setting that feels like you.'],
- ['specialty-rentals','Specialty Rentals',['white-canopy','patio-heater','cooler','red-catering-cooler','waste-bin','extension-cord'],'gns-red-catering-cooler.webp','Comfort and practical essentials for a beautifully considered occasion.']
+ ['specialty-rentals','Specialty Rentals',['white-canopy','patio-heater','cooler','red-catering-cooler','waste-bin','extension-cord'],'gns-red-cooler-open-upright.webp','Comfort and practical essentials for a beautifully considered occasion.']
 ].map(([slug,name,ids,image,copy])=>({slug,name,ids,image,copy}));
 const celebrations = [
  ['weddings','Weddings','A setting for your forever.','From your ceremony to your final toast, bring your wedding vision together with thoughtfully selected seating, tables, linens and beautiful details.','gns-dinnerware-setting.webp',['gold-chiavari-chair','round-table','white-linen','water-goblet','gold-arch'],'Wedding'],

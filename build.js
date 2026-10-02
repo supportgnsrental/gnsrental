@@ -76,7 +76,7 @@ const galleryImages=[
  ['gns-dinnerware-setting.webp','Dinnerware & lavender details','Tabletop inspiration','dinnerware-setting'],
  ['gns-floral-bowl-styling.webp','A distinctive serving detail','Serving bowl styling','floral-serving-bowl'],
  ['gns-9l-chafer.webp','An elegant buffet presentation','Gold-accented chafing dish','gold-9l-chafer'],
- ['gns-red-catering-cooler.webp','Practical catering essentials','Red insulated catering cooler','red-catering-cooler'],
+ ['gns-red-cooler-open-upright.webp','Practical catering essentials','Red insulated catering cooler','red-catering-cooler'],
  ['gns-black-table-skirt.webp','A polished serving station','Black table skirt','black-table-skirt'],
  ['gns-navy-pintuck-tablecloth.webp','Navy blue, beautifully textured','120-inch round pintuck tablecloth','navy-pintuck-120-round-tablecloth']
 ];

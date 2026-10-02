@@ -65,6 +65,12 @@
       "file": "gns-eggplant-polyester-napkin.webp",
       "sourceName": "Premium Polyester Napkin 19\"x19\" - Eggplant/Plum",
       "source": "Customer-supplied product photo"
+    },
+    {
+      "file": "gns-red-cooler-open-upright.webp",
+      "driveFileId": "1_HvSB9O3N9nQ4FgafjEQQjREIap05gpA",
+      "sourceName": "IMG_3997.HEIC",
+      "displayOrientation": "90 degrees counterclockwise via CSS"
     }
   ]
 }

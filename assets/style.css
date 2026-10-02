@@ -117,3 +117,6 @@
 .gallery-card{display:block;border:1px solid transparent;transition:border-color .2s,transform .2s}.gallery-card:hover{border-color:var(--gold);transform:translateY(-3px)}.showroom-gallery .gallery-card figure{height:100%;display:flex;flex-direction:column}.showroom-gallery .gallery-card figcaption{flex:1}.showroom-gallery .gallery-card-action{display:block;margin-top:12px;color:#e6d4ad;font-size:12px;font-weight:500;letter-spacing:.3px}.showroom-gallery .gallery-card img{transition:transform .25s}.gallery-card:hover img{transform:scale(1.025)}
 
 .location-chips a{display:inline-block;transition:background .2s,color .2s,border-color .2s}.location-chips a:hover,.location-chips a:focus-visible{background:var(--forest);color:#fff;border-color:var(--forest)}
+
+/* Present the supplied cooler photograph upright without changing the original pixels. */
+img[src*="gns-red-cooler-open-upright.webp"]{object-fit:contain!important;transform:rotate(-90deg) scale(.74)!important;mix-blend-mode:normal}
