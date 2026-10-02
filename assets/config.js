@@ -6,7 +6,7 @@ const GNS_CONFIG = {
   address: { streetAddress: '2500 Vantage Dr', addressLocality: 'Woodbridge', addressRegion: 'VA', postalCode: '22191', addressCountry: 'US' },
   email: 'support@gnsrental.com', // Business contact provided by GNS; quote delivery is configured separately on Vercel.
   phone: '',
-  instagramUrl: 'https://www.instagram.com/gnseventrentals/',
+  instagramUrl: 'https://www.instagram.com/gnsrentals/',
   facebookUrl: '', // Add the official profile URL when available.
   tiktokUrl: '',
   googleAnalyticsId: '', // G-XXXXXXXXXX; loads only with visitor consent.
