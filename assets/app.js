@@ -88,6 +88,8 @@
   function localDate(){const now=new Date();return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`}
   const form=$('#quote-form');
   if(form){
+    const community=params.get('community');
+    if(community)form.elements.location.value=community.slice(0,180);
     const date=form.elements.date,endDate=form.elements.endDate;date.min=localDate();endDate.min=localDate();
     const collection=params.get('collection');
     const occasions={'weddings':'Wedding','nikkah-walimat':'Walimat-ul-Nikkah','birthdays-milestones':'Birthday','baby-bridal-showers':'Baby / bridal shower','graduations':'Graduation','corporate-events':'Corporate event','cultural-celebrations':'Cultural celebration'};
