@@ -69,9 +69,12 @@ test('quote API requires a guest count and recomputes trusted prices',async()=>{
  }finally{keys.forEach((k,i)=>old[i]===undefined?delete process.env[k]:process.env[k]=old[i]);global.fetch=oldFetch}
 });
 
- test('website photography comes only from the supplied Drive folder',()=>{
+ test('catalog retains original photos and adds supplied Drive photography',()=>{
   const allowed=new Set(require('../content/image-sources.json').images.map(i=>i.file));
-  allowed.add('gns-logo.png'); // Retain the approved business logo.
+  allowed.add('gns-logo.png');
+  for(const id of ['gold-chiavari-chair','white-folding-chair','round-table','banquet-table','cocktail-table','white-linen','water-goblet','gold-arch','white-canopy','patio-heater','cooler','waste-bin','extension-cord']){
+   allowed.add(id+'.webp');const p=require('../assets/catalog').find(p=>p.id===id);assert.equal(p.image,id+'.webp');
+  }
   for(const file of html){const doc=fs.readFileSync(file,'utf8');for(const m of doc.matchAll(/\/assets\/images\/([^"?<> ]+)/g))assert.ok(allowed.has(m[1]),`${file}: unapproved photo ${m[1]}`)}
   for(const p of require('../assets/catalog'))if(p.image)assert.ok(allowed.has(p.image));
  });
