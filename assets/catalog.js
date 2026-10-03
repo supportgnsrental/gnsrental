@@ -7,7 +7,7 @@ const GNS_CATALOG = [
     "id": "gold-chiavari-chair",
     "name": "Gold Chiavari Chair",
     "category": "Seating",
-    "price": 10,
+    "price": 9,
     "image": "gold-chiavari-chair.webp",
     "tag": "A celebration classic",
     "description": "A graceful gold silhouette for ceremony seating and beautifully dressed reception tables.",
